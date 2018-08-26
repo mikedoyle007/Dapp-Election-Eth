@@ -84,21 +84,21 @@ App = {
     }).catch(function(error) {
       console.warn(error);
     });
+  },
+
+  castVote: function() {
+    var candidateId = $('#candidatesSelect').val();
+    App.contracts.Election.deployed().then(function(instance) {
+      return instance.vote(candidateId, { from: App.account });
+    }).then(function(result) {
+      // Wait for votes to update
+      $("#content").hide();
+      $("#loader").show();
+    }).catch(function(err) {
+      console.error(err);
+    });
   }
 };
-
-castVote: function() {
-  var candidateId = $('#candidatesSelect').val();
-  App.contracts.Election.deployed().then(function(instance) {
-    return instance.vote(candidateId, { from: App.account });
-  }).then(function(result) {
-    // Wait for votes to update
-    $("#content").hide();
-    $("#loader").show();
-  }).catch(function(err) {
-    console.error(err);
-  });
-}
 
 $(function() {
   $(window).load(function() {
